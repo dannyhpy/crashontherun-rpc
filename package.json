@@ -1,0 +1,15 @@
+{
+  "name": "crashontherun-rpc",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "lint": "node_modules/.bin/standard --fix"
+  },
+  "devDependencies": {
+    "standard": "^17.1.0"
+  },
+  "dependencies": {
+    "pako": "^2.1.0"
+  }
+}
