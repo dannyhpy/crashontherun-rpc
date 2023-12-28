@@ -1,15 +1,13 @@
-import { genericID, genericKey } from '../constants.js'
-
-export async function authenticate (params) {
+export async function authenticate (params, { settings }) {
   const token = params[0]
 
-  if (token === genericKey) {
+  if (token === settings.guestKey) {
     return {
       resultCode: 1,
       resultMessage: 'OK',
       signUpToken: token,
-      authenticationToken: genericKey,
-      coreUserId: genericID,
+      authenticationToken: settings.guestKey,
+      coreUserId: settings.guestID,
       mergeStatus: 2
     }
   } else {
@@ -21,14 +19,14 @@ export async function authenticate (params) {
   }
 }
 
-export async function logIn (params) {
+export async function logIn (params, { settings }) {
   const token = params[0]
 
-  if (token === genericKey) {
+  if (token === settings.guestKey) {
     return {
       resultCode: 1,
       resultMessage: 'OK',
-      sessionKey: genericKey,
+      sessionKey: settings.guestKey,
       signInCount: 1
     }
   } else {
@@ -39,11 +37,11 @@ export async function logIn (params) {
   }
 }
 
-export async function signUp (_params) {
+export async function signUp (_params, { settings }) {
   return {
     resultCode: 1,
     resultMessage: 'OK',
-    signUpToken: genericKey,
-    coreUserId: genericID
+    signUpToken: settings.guestKey,
+    coreUserId: settings.guestID
   }
 }

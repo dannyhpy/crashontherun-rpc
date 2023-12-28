@@ -27,11 +27,30 @@ function isRpcRequestValid (rpcRequest) {
 export default {
   /**
    * @param {Request} request
+   * @param {NodeJS.Dict<string>} env
    * @returns {Promise<Response>}
    */
-  async fetch (request) {
+  async fetch (request, env = {}) {
     if (request.method === 'GET') return new Response(null, { status: 404 })
     if (request.method !== 'POST') return new Response(null, { status: 405 })
+
+    function getEnvInt (name, defaultVal) {
+      return env[name]
+        ? parseInt(env[name])
+        : defaultVal
+    }
+    function getEnvString (name, defaultVal) {
+      return env[name] ?? defaultVal
+    }
+
+    const settings = {
+      debug: getEnvInt('COTR_DEBUG', 0),
+      guestID: getEnvInt('COTR_GUEST_ID', 1),
+      guestKey: getEnvString('COTR_GUEST_KEY', 'guest'),
+      modifiers: {
+        productionTimeMultiplier: getEnvInt('COTR_PRODUCTION_TIME_MULTIPLIER', 1),
+      },
+    }
 
     const url = new URL(request.url)
     const sessionKey = url.searchParams.get('_session')
@@ -78,8 +97,9 @@ export default {
     })()
     const rpcResponses = []
 
-    // DEBUG:
-    //console.log('>', JSON.stringify(rpcRequests))
+    if (settings.debug === 1) {
+      console.log('>', JSON.stringify(rpcRequests))
+    }
 
     for (const rpcRequest of rpcRequests) {
       if (!isRpcRequestValid(rpcRequest)) {
@@ -115,7 +135,8 @@ export default {
           {
             httpRequest: request,
             rpcRequest,
-            sessionKey
+            sessionKey,
+            settings,
           }
         )
         rpcResp.result = fnRes ?? null
@@ -141,9 +162,10 @@ export default {
         }
       }
     }
-
-    // DEBUG:
-    //console.log('<', JSON.stringify(rpcResponses))
+    
+    if (settings.debug === 1) {
+      console.log('<', JSON.stringify(rpcResponses))
+    }
 
     if (rpcResponses.length === 0) {
       return new Response(null, { status: 204 })
