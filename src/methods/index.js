@@ -1,18 +1,16 @@
-import { genericKey } from '../constants.js'
-
 import * as AppAbTestApi from './appAbTestApi.js'
 import * as AppCommonCatalogApi from './appCommonCatalogApi.js'
 import * as AppCoreIdentityApi from './appCoreIdentityApi.js'
-import * as AppTimeApi from './appTimeApi.js'
 import * as ConfigApi from './configApi.js'
+import * as StateApi from './stateApi.js'
 
-async function genericStateUpdateHandler (_params, { sessionKey }) {
+async function genericStateUpdateHandler (_params, { sessionKey, settings }) {
   if (sessionKey === null) {
     throw {
       code: 3,
       message: 'No session key error'
     }
-  } else if (sessionKey === genericKey) {
+  } else if (sessionKey === settings.guestKey) {
     return { stateUpdateOutcome: 'CLIENT_REQUEST_ACCEPTED' }
   } else {
     throw {
@@ -30,7 +28,7 @@ export default {
   'AppCoreIdentityApi.logIn': AppCoreIdentityApi.logIn,
   'AppCoreIdentityApi.signUp': AppCoreIdentityApi.signUp,
   'AppStoreApi.createJournal4': async (_params) => null,
-  'AppTimeApi.getServerTime': AppTimeApi.getServerTime,
+  'AppTimeApi.getServerTime': async (_params) => Date.now(),
   'ConfigApi.getConfigEntriesCached': ConfigApi.getConfigEntriesCached,
   'InventoryApi.convertCrashPoints': genericStateUpdateHandler,
   'MiloSeasonApi.claimSeasonWithoutTeamReward': genericStateUpdateHandler,
@@ -49,8 +47,7 @@ export default {
   'RunnerApi.endCollectionRun': genericStateUpdateHandler,
   'RunnerApi.endRun': genericStateUpdateHandler,
   'RunnerApi.playerDeath': genericStateUpdateHandler,
-  //'ServerAuthLiveOpsApi.getLiveOps': ServerAuthLiveOpsApi.getLiveOps,
-  'StateApi.syncState': genericStateUpdateHandler,
+  'StateApi.syncState': StateApi.syncState,
   'TrackingApi.appTrack2': async (_params) => null,
   'TrackingApi.getUniqueACId': async (_params) => '0',
   'UnlockApi.unlockBuildings': genericStateUpdateHandler,

@@ -1,5 +1,3 @@
-import { genericKey } from '../constants.js'
-
 const defaultAbCaseValues = {
   'milo_battle_run_speed_up': 0,
   'milo_collection_run_speed_up_2': 0,
@@ -11,7 +9,7 @@ const defaultAbCaseValues = {
   'milo_revamp_phase_3': 1,
 }
 
-export async function getAppUserAbCases (params, { sessionKey }) {
+export async function getAppUserAbCases (params, { sessionKey, settings }) {
   const userAbCases = params[0]
   if (!Array.isArray(userAbCases)) throw {
     code: -32602,
@@ -23,7 +21,7 @@ export async function getAppUserAbCases (params, { sessionKey }) {
       code: 3,
       message: 'No session key error'
     }
-  } else if (sessionKey === genericKey) {
+  } else if (sessionKey === settings.guestKey) {
     const cases = []
     for (const userAbCase of userAbCases) {
       cases.push({
