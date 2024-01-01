@@ -1,0 +1,3 @@
+name = "cotr"
+main = "./src/worker.js"
+compatibility_date = "2023-12-23"
