@@ -44,6 +44,7 @@ export default {
   'ProgressApi.finishedTutorial': genericStateUpdateHandler,
   'ProgressApi.levelUpPlayer': genericStateUpdateHandler,
   'ProgressApi.startTutorial': genericStateUpdateHandler,
+  'QuestApi.reportQuestProgress': genericStateUpdateHandler,
   'RunnerApi.endCollectionRun': genericStateUpdateHandler,
   'RunnerApi.endRun': genericStateUpdateHandler,
   'RunnerApi.playerDeath': genericStateUpdateHandler,

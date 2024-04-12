@@ -31,7 +31,6 @@ export default {
    * @returns {Promise<Response>}
    */
   async fetch (request, env = {}) {
-    if (request.method === 'GET') return new Response(null, { status: 404 })
     if (request.method !== 'POST') return new Response(null, { status: 405 })
 
     function getEnvInt (name, defaultVal) {
