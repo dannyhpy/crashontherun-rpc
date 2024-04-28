@@ -2,6 +2,7 @@ import * as AppAbTestApi from './appAbTestApi.js'
 import * as AppCommonCatalogApi from './appCommonCatalogApi.js'
 import * as AppCoreIdentityApi from './appCoreIdentityApi.js'
 import * as ConfigApi from './configApi.js'
+import * as ShopApi from './shopApi.js'
 import * as StateApi from './stateApi.js'
 
 async function genericStateUpdateHandler (_params, { sessionKey, settings }) {
@@ -48,6 +49,8 @@ export default {
   'RunnerApi.endCollectionRun': genericStateUpdateHandler,
   'RunnerApi.endRun': genericStateUpdateHandler,
   'RunnerApi.playerDeath': genericStateUpdateHandler,
+  'ShopApi.loadProducts': ShopApi.loadProducts,
+  'ShopApi.purchaseProduct': genericStateUpdateHandler,
   'StateApi.syncState': StateApi.syncState,
   'TrackingApi.appTrack2': async (_params) => null,
   'TrackingApi.getUniqueACId': async (_params) => '0',
