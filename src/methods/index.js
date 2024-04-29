@@ -36,6 +36,7 @@ export default {
   'MiloSeasonApi.spendTeamRunTicket': genericStateUpdateHandler,
   'PackApi.claimPack': genericStateUpdateHandler,
   'ProductionApi.buyProducer': genericStateUpdateHandler,
+  'ProductionApi.buyProducerMissingResources': genericStateUpdateHandler,
   'ProductionApi.collectProducer': genericStateUpdateHandler,
   'ProductionApi.speedUpProducer': genericStateUpdateHandler,
   'ProductionApi.startProducer': genericStateUpdateHandler,
